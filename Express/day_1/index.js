@@ -4,6 +4,8 @@ import userData from "./data.js"
 const app = express()
 const PORT = 3000
 
+app.use(express.json()) // middleware to parse incoming JSON requests
+
 app.get("/", (req, res) => {
     res.status(200).send("Hello world from express")
 })
@@ -28,6 +30,22 @@ app.get("/api/v1/users/:id", (req, res) => {
 
     res.status(200).send(user)
 })
+
+// POST request to create a new user
+app.post("/api/v1/users", (req, res) => {
+    console.log(req.body)
+    const {name, email} = req.body
+
+    const newUser = {
+        id: userData.length + 1,
+        name,
+        email
+    }
+
+    userData.push(newUser)
+    res.status(201).send(newUser)
+})
+
 
 app.listen(PORT, (req, res) => {
     console.log("Server is running on port ", PORT)
