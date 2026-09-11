@@ -1,5 +1,5 @@
 import express from "express"
-import userData from "../../Express/day_1/data.js"
+import userData from "../../Express/part_1/data.js"
 
 const app = express()
 const PORT = 3000;
