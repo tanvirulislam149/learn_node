@@ -4,6 +4,9 @@ import userData from "../../Express/day_1/data.js"
 const app = express()
 const PORT = 3000;
 
+// middleware
+app.use(express.json())  
+
 app.get("/", (req, res) => {
     res.status(200).send("Hello world from express")
 })
@@ -14,6 +17,11 @@ app.get("/api/v1/users/allUser", (req, res) => {
     res.status(200).send({
         user, data
     })
+})
+
+app.post("/api/v1/user-info", (req, res) => {
+    console.log(req.body);
+    res.status(200).send(req.body)
 })
 
 app.get("/api/v1/users/:id", (req, res) => {
