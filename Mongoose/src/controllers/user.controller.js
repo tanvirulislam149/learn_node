@@ -21,3 +21,18 @@ export const createUserController = async (req, res) => {
         })
     }
 }
+
+export const getUserController = async (req, res) => {
+    try {
+        const result = await UserModel.find()
+        res.status(200).send({
+            success: true,
+            data: result 
+        })
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: error.message 
+        })
+    }
+}
