@@ -3,6 +3,8 @@ import connectDB from "../config/db.js"
 import 'dotenv/config'
 import session from "express-session"
 
+import userRouter from "./routes/user.route.js"
+
 const app = express()
 const PORT = process.env.PORT || 3000;
 
@@ -18,6 +20,9 @@ app.use(session({
 
 // connect DB
 connectDB()
+
+// Routes
+app.use("/api/v1/user", userRouter)
 
 app.get("/", (req, res) => {
     res.status(200).send("Hello world from auth")
