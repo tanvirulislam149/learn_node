@@ -40,7 +40,7 @@ export const loginController = async(req, res) => {
     try {
         const user = await loginService(username, password)
         req.session.userId = user._id
-        res.status(201).send({
+        res.status(200).send({
             success: true,
             message: "User login Successfully.",
             data: user

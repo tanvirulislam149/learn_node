@@ -4,6 +4,7 @@ import 'dotenv/config'
 import session from "express-session"
 
 import userRouter from "./routes/user.route.js"
+import { sessionMiddleware } from "./middlewares/session.middleware.js"
 
 const app = express()
 const PORT = process.env.PORT || 3000;
@@ -14,7 +15,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 10  // 10 min
+        // maxAge: 1000 * 60 * 10  // 10 min
+        maxAge: 1000 * 60 // 1 min
     }
 }))
 
@@ -23,6 +25,13 @@ connectDB()
 
 // Routes
 app.use("/api/v1/user", userRouter)
+
+// demo route for auth
+app.get("/api/v1/tasks", sessionMiddleware, (req, res) => {
+    res.status(200).send({
+        message: "User authenticated."
+    })
+})
 
 app.get("/", (req, res) => {
     res.status(200).send("Hello world from auth")
