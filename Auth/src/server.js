@@ -5,6 +5,7 @@ import session from "express-session"
 
 import userRouter from "./routes/user.route.js"
 import { sessionMiddleware } from "./middlewares/session.middleware.js"
+import jwtAuthMiddleware from "./middlewares/jwtAuth.middleware.js"
 
 const app = express()
 const PORT = process.env.PORT || 3000;
@@ -26,10 +27,17 @@ connectDB()
 // Routes
 app.use("/api/v1/user", userRouter)
 
-// demo route for auth
+// demo session check route for auth
 app.get("/api/v1/tasks", sessionMiddleware, (req, res) => {
     res.status(200).send({
         message: "User authenticated."
+    })
+})
+
+// jwt check route for auth
+app.get("/api/v1/tasks-jwt", jwtAuthMiddleware, (req, res) => {
+    res.status(200).send({
+        message: "User authenticated by jwt."
     })
 })
 
