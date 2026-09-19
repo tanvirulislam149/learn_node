@@ -1,4 +1,5 @@
 import { loginService, signupService } from "../services/user.service.js";
+import jwt from "jsonwebtoken"
 
 export const signupController = async (req, res) => {
     const {username, password} = req.body;
@@ -40,10 +41,16 @@ export const loginController = async(req, res) => {
     try {
         const user = await loginService(username, password)
         req.session.userId = user._id
+
+        const token = jwt.sign({id: user._id, username}, 
+            process.env.JWT_TOKEN,
+            {expiresIn: 60 }  // 1 min
+        )
         res.status(200).send({
             success: true,
             message: "User login Successfully.",
-            data: user
+            data: user,
+            token
         })
     } catch (error) {
         res.status(500).send({
